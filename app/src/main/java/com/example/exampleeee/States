@@ -1,0 +1,72 @@
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import com.example.exampleeee.ui.theme.ExampleeeeTheme
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
+
+class MainActivity : ComponentActivity() {
+    @ExperimentalCoilApi
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            ExampleeeeTheme {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    CoilImage()
+                }
+            }
+        }
+    }
+}
+
+@ExperimentalCoilApi
+@Composable
+fun CoilImage(){
+    val context = LocalContext.current
+    Box(
+        modifier = Modifier
+            .height(200.dp)
+            .width(200.dp),
+        contentAlignment = Alignment.Center
+    ){
+        val painter = rememberImagePainter(
+            data = "https://avatars.githubusercontent.com/u/14994036?v=4",
+            builder = {
+
+
+            }
+        )
+        val painterState = painter.state
+        Image(
+            painter = painter,
+            contentDescription = "null"
+        )
+        if(painterState is ImagePainter.State.Empty){
+            Toast.makeText(context, "empty", Toast.LENGTH_LONG).show()
+        }
+        else if (painterState is ImagePainter.State.Error) {
+            Toast.makeText(context, "error", Toast.LENGTH_LONG).show()
+        }
+        else if(painterState is ImagePainter.State.Loading) {
+            CircularProgressIndicator() 
+        }
+        else if(painterState is ImagePainter.State.Success) {
+            Toast.makeText(context, "sucsessful", Toast.LENGTH_LONG).show() 
+        }
+
+    }
+}
