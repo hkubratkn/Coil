@@ -5,6 +5,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import com.example.exampleeee.ui.theme.ExampleeeeTheme
@@ -14,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
+import coil.transform.BlurTransformation
+import coil.transform.CircleCropTransformation
 import coil.transform.GrayscaleTransformation
 
 class MainActivity : ComponentActivity() {
@@ -21,12 +25,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ExampleeeeTheme {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    CoilImage()
+                Surface(color = MaterialTheme.colors.error){
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+                        CoilImage()
+                    }
                 }
             }
         }
@@ -50,7 +56,9 @@ fun CoilImage(){
                 error(R.drawable.ic_launcher_foreground)
                 crossfade(1000)
                 transformations(
-                    GrayscaleTransformation()
+                    GrayscaleTransformation(),
+                    CircleCropTransformation(),
+                    BlurTransformation(context)
                 )
             }
         )
